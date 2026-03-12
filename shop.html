@@ -16,7 +16,7 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background:#f04e23;
+  background:#063378;
   padding:10px 20px;
   color:white;
 }
@@ -35,25 +35,25 @@ body{
 /* Search input */
 .search-wrapper input[type="search"] {
   width:100%;
-  padding:8px 35px 8px 10px; /* extra right padding for icon */
+  padding:8px 35px 8px 10px;
   border-radius:20px;
   border:none;
   color:white;
   background:rgba(255,255,255,0.2);
-  outline: none; /* REMOVE the black outline */
+  outline: none;
 }
 
 .search-wrapper input[type="search"]::placeholder {
   color:#fff;
 }
 
-/* Search icon inside input */
+/* Search icon */
 .search-icon {
   position:absolute;
   right:10px;
   top:50%;
   transform:translateY(-50%);
-  pointer-events:none; /* allows typing without blocking input */
+  pointer-events:none;
   width:16px;
   height:16px;
   fill:white;
@@ -73,13 +73,19 @@ body{
 }
 
 .product-container{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  display:flex;
   gap:20px;
   padding:20px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+}
+
+.product-container::-webkit-scrollbar{
+  display:none;
 }
 
 .product-card{
+  min-width:220px;
   background:white;
   padding:15px;
   border-radius:10px;
@@ -93,13 +99,28 @@ body{
   object-fit:contain;
 }
 
+/* ALL PRODUCTS HEADER */
+
+.all-products-header{
+  padding:30px 20px 10px 20px;
+}
+
+.all-products-text h2{
+  font-size:30px;
+  margin-bottom:5px;
+}
+
+.all-products-text p{
+  color:#666;
+}
+
 .price{
-  color:#f04e23;
+  color:#063378;
   font-weight:bold;
 }
 
 .product-card button{
-  background:#f04e23;
+  background:#063378;
   color:white;
   border:none;
   padding:10px;
@@ -116,11 +137,11 @@ body{
 
   <div class="logo">Nova</div>
 
-  <!-- Search bar with icon -->
   <div class="search-wrapper">
     <input type="search" id="searchInput" placeholder="Search..." onkeyup="filterProducts()">
     <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M21 21l-4.35-4.35m2.85-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M21 21l-4.35-4.35m2.85-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"
+      stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
 
@@ -132,14 +153,30 @@ body{
 
 </div>
 
-<div class="product-container" id="productContainer"></div>
+<!-- ALL PRODUCTS TITLE -->
+<section class="all-products-header">
+
+  <div class="all-products-text">
+    <h2>All Products</h2>
+    <p>Browse our full collection of computer accessories.</p>
+  </div>
+
+</section>
+
+<div class="product-container" id="productContainer"></div> 
 
 <script>
-let products=[
-  {name:"Headphones",price:20,img:"https://via.placeholder.com/150"},
-  {name:"Phone Case",price:8,img:"https://via.placeholder.com/150"},
-  {name:"Keyboard",price:30,img:"https://via.placeholder.com/150"},
-  {name:"Mouse",price:15,img:"https://via.placeholder.com/150"}
+
+let products=[  
+  {name:"Headphones",price:800,img:"https://m.media-amazon.com/images/I/61CGHv6kmWL.jpg"},
+  {name:"Phone Case",price:600,img:"https://m.media-amazon.com/images/I/61tC0X5lYCL.jpg"},
+  {name:"Keyboard",price:1000,img:"https://m.media-amazon.com/images/I/71kr3WAj1FL.jpg"},
+  {name:"Gaming Monitor",price:9500,img:"https://m.media-amazon.com/images/I/71p0vJb6q4L.jpg"},
+  {name:"RTX Graphics Card",price:45000,img:"https://m.media-amazon.com/images/I/81wC3H6H0zL.jpg"},
+  {name:"Gaming Chair",price:7200,img:"https://m.media-amazon.com/images/I/71S6k1Dk7QL.jpg"},
+  {name:"RGB Mechanical Keyboard",price:3200,img:"https://m.media-amazon.com/images/I/71gB2ZKx3sL.jpg"},
+  {name:"Wireless Gaming Mouse",price:2500,img:"https://m.media-amazon.com/images/I/61LtuGzXeaL.jpg"},
+  {name:"PC Case RGB",price:4200,img:"https://m.media-amazon.com/images/I/71c5H8N3yJL.jpg"}
 ];
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
@@ -152,6 +189,7 @@ function updateCart(){
 function addToCart(i){
   let product = products[i];
   let existing = cart.find(item => item.name === product.name);
+
   if(existing){
     existing.qty = (existing.qty || 1) + 1;
   }else{
@@ -162,15 +200,16 @@ function addToCart(i){
       qty: 1
     });
   }
+
   localStorage.setItem("cart",JSON.stringify(cart));
   updateCart();
 }
 
 function renderProducts(list = products){
+
   let container = document.getElementById("productContainer");
   container.innerHTML = "";
 
-  // If no products found
   if(list.length === 0){
     container.innerHTML = `
       <div style="
@@ -178,11 +217,9 @@ function renderProducts(list = products){
         text-align:center;
         font-size:20px;
         color:#888;
-        padding:40px;
-      ">
+        padding:40px;">
         🔍 Product not available
-      </div>
-    `;
+      </div>`;
     return;
   }
 
@@ -199,9 +236,9 @@ function renderProducts(list = products){
 }
 
 function filterProducts(){
+
   let input = document.getElementById("searchInput").value.toLowerCase().trim();
 
-  // If search is empty show all products
   if(input === ""){
     renderProducts(products);
     return;
@@ -216,20 +253,23 @@ function filterProducts(){
 
 function openCart(){ window.location="cart.html"; }
 function openAccount(){ window.location="account.html"; }
+
 function logout(){
-    if(confirm("Do you want to log out?")){
-        localStorage.removeItem("currentUser");
-        window.location="index.html";
-    }
+  if(confirm("Do you want to log out?")){
+    localStorage.removeItem("currentUser");
+    window.location="index.html";
+  }
 }
 
 let currentUser=localStorage.getItem("currentUser");
+
 if(currentUser){
   document.getElementById("profileLink").textContent=currentUser;
 }
 
 updateCart();
 renderProducts();
+
 </script>
 
 </body>
