@@ -3,302 +3,384 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVAWEB</title>
+<title>Nova Store</title>
 
 <style>
 body{
-  font-family:Arial;
-  background:#f4f4f4;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
   margin:0;
+  font-family:Segoe UI;
+  background:#f4f4f4;
 }
 
-.container{
-  background:white;
-  padding:30px;
-  width:350px;
-  border-radius:10px;
-  box-shadow:0 0 10px rgba(226, 58, 2, 0.8);
-}
-
-h2{text-align:center;}
-
-input{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
-  border-radius:10px;
-  border:1px solid #f90909;
-}
-
-button{
-  width:100%;
-  padding:10px;
-  background:#f04e23;
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#063378;
+  padding:10px 20px;
   color:white;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
 
-button:hover{background:#f04e23;}
-
-.link{
-  text-align:center;
-  cursor:pointer;
-  color:#cf3a10;
-  margin-top:10px;
+.logo{
+  font-size:1.5rem;
+  font-weight:bold;
 }
 
-.password-box{
+.search-wrapper{
   position:relative;
+  width:40%;
 }
 
-.eye-icon{
+.search-wrapper input{
+  width:100%;
+  padding:8px 35px 8px 10px;
+  border-radius:20px;
+  border:none;
+  background:rgba(255,255,255,0.2);
+  color:white;
+  outline:none;
+}
+
+.search-wrapper input::placeholder{
+  color:white;
+}
+
+.search-icon{
   position:absolute;
   right:10px;
   top:50%;
   transform:translateY(-50%);
+  width:16px;
+  height:16px;
+  fill:white;
+}
+
+.nav-links{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+
+.profile-box{
+  display:flex;
+  gap:5px;
   cursor:pointer;
-  width:24px;
-  height:24px;
 }
 
-small{
-  font-size:13px;
-  display:block;
-  margin-top:-5px;
-  margin-bottom:5px;
+/* HERO */
+.hero{
+  height:90vh;
+  background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+  url("https://images.unsplash.com/photo-1593642634367-d91a135587b5");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
 }
 
-.weak{color:red;}
-.medium{color:orange;}
-.strong{color:green;}
+.hero h1{
+  font-size:55px;
+  margin-bottom:10px;
+}
 
-#notification{
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #f04e23;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 10px;
-  display: none;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  z-index: 1000;
-  font-weight: bold;
-  font-family: Arial;
+.hero p{
+  font-size:18px;
+  margin-bottom:20px;
+}
+
+.hero button{
+  background:#063378;
+  border:none;
+  padding:12px 30px;
+  color:white;
+  border-radius:25px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* PRODUCTS */
+.product-container{
+  display:flex;
+  gap:20px;
+  padding:40px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+}
+
+.product-container::-webkit-scrollbar{
+  display:none;
+} 
+
+.product-card{
+  min-width:220px;
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.product-card img{
+  width:100%;
+  height:150px;
+  object-fit:contain;
+}
+
+.price{
+  color:#063378;
+  font-weight:bold;
+}
+
+.product-card button{
+  background:#063378;
+  color:white;
+  border:none;
+  padding:10px;
+  width:100%;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+/* FEATURED HEADER */
+
+.featured-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:40px;
+  padding-bottom:0;
+}
+
+.featured-text h2{
+  font-size:32px;
+  margin-bottom:8px;
+}
+
+.featured-text p{
+  color:#555;
+}
+
+.featured-view a{
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:500;
+}
+
+/* FOOTER */
+.footer{
+  background:#0b1c3d;
+  color:white;
+  padding:60px 40px 20px;
+}
+
+.footer-container{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:40px;
+  max-width:1200px;
+  margin:auto;
+}
+
+.footer-brand h2{
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.footer-brand p{
+  color:#cbd5e1;
+  line-height:1.6;
+}
+
+.footer-links{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.footer-links h3{
+  margin-bottom:10px;
+}
+
+.footer-links a{
+  text-decoration:none;
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+.footer-links a:hover{
+  color:white;
+}
+
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,0.1);
+  margin-top:40px;
+  padding-top:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  max-width:1200px;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:14px;
+}
+
+.footer-policy a{
+  margin-left:20px;
+  text-decoration:none;
+  color:#cbd5e1;
+}
+
+.footer-policy a:hover{
+  color:white;
 }
 </style>
 </head>
 <body>
 
-<div class="container">
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">Nova</div>
 
-  <div id="notification">
-    <span id="notif-icon">⚠️</span>
-    <span id="notif-msg"></span>
+  <div class="search-wrapper">
+    <input type="search" id="searchInput" placeholder="Search..." 
+onkeyup="filterProducts()" onclick="scrollToFeatured()">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M21 21l-4.35-4.35m2.85-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0z" stroke="white" stroke-width="2"/>
+    </svg>
   </div>
 
-  <!-- LOGIN FORM -->
-  <div id="loginForm">
-    <h2 style="color: #f04e23;">Login</h2>
-
-    <input id="loginUser" placeholder="Username">
-
-    <div class="password-box">
-      <input type="password" id="loginPass" placeholder="Password" onkeyup="checkLoginStrength()">
-      <!-- Visible Eye -->
-      <svg id="loginEye" class="eye-icon" onclick="toggleLoginPassword()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path id="loginEyePath" d="M1 12C1 12 5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/>
-        <circle id="loginEyeCircle" cx="12" cy="12" r="3"/>
-      </svg>
-    </div>
-
-    <small id="loginStrength"></small>
-
-    <button onclick="login()">Login</button>
-    <p class="link" onclick="showSignup()">Create Account</p>
+  <div class="nav-links">
+    <div class="profile-box" onclick="openAccount()">👤 Login</div>
   </div>
-
-  <!-- SIGN UP FORM -->
-  <div id="signupForm" style="display:none;">
-    <h2 style="color: #f04e23;">Sign Up</h2>
-
-    <input id="signupUser" placeholder="Username">
-    <input id="signupContact" placeholder="Contact Number" oninput="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="11">
-    <input id="signupAddress" placeholder="Address">
-    <input id="signupEmail" placeholder="Email">
-
-    <div class="password-box">
-      <input type="password" id="signupPass" placeholder="Password" onkeyup="checkSignupStrength()">
-      <!-- Visible Eye -->
-      <svg id="signupEye" class="eye-icon" onclick="toggleSignupPassword()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path id="signupEyePath" d="M1 12C1 12 5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/>
-        <circle id="signupEyeCircle" cx="12" cy="12" r="3"/>
-      </svg>
-    </div>
-
-    <small id="signupStrength"></small>
-
-    <button onclick="signup()">Sign Up</button>
-    <p class="link" onclick="showLogin()">Already have account?</p>
-  </div>
-
 </div>
 
+<!-- HERO -->
+<section class="hero">
+  <h1>Nova Computer Accessories Store</h1>
+  <p>Premium PC Components & Peripherals</p>
+  <button onclick="loginAlert()">Shop Now</button>
+</section>
+
+<!-- FEATURED PRODUCTS TITLE -->
+<section class="featured-header" id="featuredProducts">
+
+  <div class="featured-text">
+    <h2>Featured Products</h2>
+    <p>Discover our most popular components and accessories.</p>
+  </div>
+
+  <div class="featured-view">
+    <a href="#" onclick="loginAlert()">View All →</a>
+  </div>
+
+</section>
+
+<!-- PRODUCTS -->
+<div class="product-container" id="productContainer"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      <h2>Nova</h2>
+      <p>
+        Premium computer components and peripherals for enthusiasts,
+        gamers, and professionals. Elevate your setup with Nova.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h3>Quick Links</h3>
+      <a href="#">Home</a>
+      <a href="#" onclick="loginAlert()">Shop All</a>
+      <a href="#"onclick="loginAlert()">Your Cart</a>
+    </div>
+
+    <div class="footer-links">
+      <h3>Account</h3>
+      <a href="login.html">Log-in/Sign-up</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Nova Computer Accessories. All rights reserved.</p>
+
+    <div class="footer-policy">
+  <a href="#" onclick="showPrivacy()">Privacy Policy</a>
+  <a href="#" onclick="showTerms()">Terms of Service</a>
+</div>
+  </div>
+
+</footer>
+
 <script>
-function showNotification(msg, icon="⚠️", duration=3000){
-  const notif = document.getElementById("notification");
-  document.getElementById("notif-msg").textContent = msg;
-  document.getElementById("notif-icon").textContent = icon;
-  notif.style.display = "flex";
-  setTimeout(() => { notif.style.display = "none"; }, duration);
+
+  function scrollToFeatured(){
+  document.getElementById("featuredProducts").scrollIntoView({
+    behavior:"smooth"
+  });
 }
 
-function toggleLoginPassword(){
-  const pass = document.getElementById("loginPass");
-  const eyeCircle = document.getElementById("loginEyeCircle");
-
-  if(pass.type === "password"){
-    pass.type = "text";
-    eyeCircle.setAttribute("r",0);
-  } else {
-    pass.type = "password";
-    eyeCircle.setAttribute("r",3);
-  }
+  function showPrivacy(){
+  alert("Privacy Policy\n\nNova respects your privacy. We do not sell or share your personal information. Any data collected such as login details or shopping activity is only used to improve your experience on our store.");
 }
 
-function toggleSignupPassword(){
-  const pass = document.getElementById("signupPass");
-  const eyeCircle = document.getElementById("signupEyeCircle");
-
-  if(pass.type === "password"){
-    pass.type = "text";
-    eyeCircle.setAttribute("r",0);
-  } else {
-    pass.type = "password";
-    eyeCircle.setAttribute("r",3);
-  }
+function showTerms(){
+  alert("Terms of Service\n\nBy using Nova Store, you agree to browse responsibly and log in before making purchases. All product listings and prices are subject to change. Misuse of the platform may result in restricted access.");
 }
 
-function showSignup(){
-  document.getElementById("loginForm").style.display="none";
-  document.getElementById("signupForm").style.display="block";
+let products=[  
+  {name:"Headphones",price:800,img:"https://m.media-amazon.com/images/I/61CGHv6kmWL.jpg"},
+  {name:"Phone Case",price:600,img:"https://m.media-amazon.com/images/I/61tC0X5lYCL.jpg"},
+  {name:"Keyboard",price:1000,img:"https://m.media-amazon.com/images/I/71kr3WAj1FL.jpg"},
+  {name:"Gaming Monitor",price:9500,img:"https://m.media-amazon.com/images/I/71p0vJb6q4L.jpg"},
+  {name:"RTX Graphics Card",price:45000,img:"https://m.media-amazon.com/images/I/81wC3H6H0zL.jpg"},
+  {name:"Gaming Chair",price:7200,img:"https://m.media-amazon.com/images/I/71S6k1Dk7QL.jpg"},
+  {name:"Mechanical Keyboard RGB",price:3200,img:"https://m.media-amazon.com/images/I/71gB2ZKx3sL.jpg"}
+];
+
+function renderProducts(list=products){
+  let container=document.getElementById("productContainer");
+  container.innerHTML="";
+  list.forEach((p,i)=>{
+    container.innerHTML+=`
+      <div class="product-card">
+        <img src="${p.img}">
+        <h3>${p.name}</h3>
+        <p class="price">₱${p.price}</p>
+        <button onclick="loginAlert()">Add To Cart</button>
+      </div>
+    `;
+  });
 }
 
-function showLogin(){
-  document.getElementById("signupForm").style.display="none";
-  document.getElementById("loginForm").style.display="block";
+function filterProducts(){
+  let input=document.getElementById("searchInput").value.toLowerCase();
+  let filtered=products.filter(p=>p.name.toLowerCase().includes(input));
+  renderProducts(filtered);
 }
 
-function checkPasswordStrength(password){
-  let strength = "weak";
-
-  const hasUpper = /[A-Z]/.test(password);
-  const hasNumber = /[0-9]/.test(password);
-  const hasSymbol = /[^A-Za-z0-9]/.test(password);
-
-  if(password.length >= 8 && hasUpper && hasNumber && hasSymbol){
-    strength = "strong";
-  } else if(password.length >= 6 && (hasUpper || hasNumber)){
-    strength = "medium";
-  }
-
-  return strength;
+function loginAlert(){
+  alert("Log in first");
+  window.location="login.html";
 }
 
-function checkSignupStrength(){
-  let pass = document.getElementById("signupPass").value;
-  let msg = document.getElementById("signupStrength");
-
-  if(pass.length === 0){
-    msg.textContent="";
-    return;
-  }
-
-  const result = checkPasswordStrength(pass);
-  msg.textContent = result.charAt(0).toUpperCase() + result.slice(1) + " password";
-  msg.className = result;
+function openAccount(){
+  window.location="login.html";
 }
 
-function signup(){
-  const user = document.getElementById("signupUser").value.trim();
-  const pass = document.getElementById("signupPass").value.trim();
-  const email = document.getElementById("signupEmail").value.trim();
-  const contact = document.getElementById("signupContact").value.trim();
-  const address = document.getElementById("signupAddress").value.trim();
-
-  if(!user || !pass || !email || !contact || !address){
-    showNotification("Fill all fields", "⚠️"); 
-    return;
-  }
-
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
-  if(!email.match(emailPattern)){
-    showNotification("Enter a valid email", "⚠️"); 
-    return;
-  }
-
-  if(contact.length !== 11){
-    showNotification("Contact number must be 11 digits", "⚠️"); 
-    return;
-  }
-
-  if(checkPasswordStrength(pass) === "weak"){
-    showNotification("Password too weak!", "⚠️"); 
-    return;
-  }
-
-  if(localStorage.getItem(user)){
-    showNotification("Username already exists", "⚠️"); 
-    return;
-  }
-
-  localStorage.setItem(user, JSON.stringify({
-    username:user,
-    password:pass,
-    email:email,
-    contact:contact,
-    address:address
-  }));
-
-  showNotification("Account Created!", "✅");
-  showLogin();
-}
-
-function login(){
-  const user = document.getElementById("loginUser").value.trim();
-  const pass = document.getElementById("loginPass").value.trim();
-
-  const stored = localStorage.getItem(user);
-
-  if(!stored){
-    showNotification("User not found", "❌"); 
-    return;
-  }
-
-  const data = JSON.parse(stored);
-
-  if(data.password !== pass){
-    showNotification("Wrong password", "❌"); 
-    return;
-  }
-
-  localStorage.setItem("currentUser", user);
-  showNotification("Login successful!", "✅");
-
-  setTimeout(()=>{
-    window.location="shop.html";
-  },1000);
-}
+renderProducts();
 </script>
 
 </body>
