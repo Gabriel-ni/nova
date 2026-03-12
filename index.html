@@ -13,6 +13,7 @@ body{
   justify-content:center;
   align-items:center;
   height:100vh;
+  margin:0;
 }
 
 .container{
@@ -20,7 +21,7 @@ body{
   padding:30px;
   width:350px;
   border-radius:10px;
-  box-shadow:0 0 10px rgba(226, 58, 2, 0.841);
+  box-shadow:0 0 10px rgba(226, 58, 2, 0.8);
 }
 
 h2{text-align:center;}
@@ -49,6 +50,7 @@ button:hover{background:#f04e23;}
   text-align:center;
   cursor:pointer;
   color:#cf3a10;
+  margin-top:10px;
 }
 
 .password-box{
@@ -61,173 +63,241 @@ button:hover{background:#f04e23;}
   top:50%;
   transform:translateY(-50%);
   cursor:pointer;
-  width:22px;
-  height:22px;
+  width:24px;
+  height:24px;
 }
 
-/* Eye blink animation */
-.eye-open path, .eye-open circle{
-  stroke:rgb(196, 49, 4);
+small{
+  font-size:13px;
+  display:block;
+  margin-top:-5px;
+  margin-bottom:5px;
 }
 
-.eye-closed path, .eye-closed circle{
-  stroke:rgb;
-  opacity:0; /* hide pupil for closed eye */
-}
+.weak{color:red;}
+.medium{color:orange;}
+.strong{color:green;}
 
-.eye-closed line{
-  stroke:rgb;
+#notification{
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f04e23;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+  font-weight: bold;
+  font-family: Arial;
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<!-- LOGIN FORM -->
-<div id="loginForm">
-<h2 style="color: #f04e23;">Login</h2>
+  <div id="notification">
+    <span id="notif-icon">⚠️</span>
+    <span id="notif-msg"></span>
+  </div>
 
-<input id="loginUser" placeholder="Username">
+  <!-- LOGIN FORM -->
+  <div id="loginForm">
+    <h2 style="color: #f04e23;">Login</h2>
 
-<div class="password-box">
-<input type="password" id="loginPass" placeholder="Password">
+    <input id="loginUser" placeholder="Username">
 
-<svg id="loginEye" class="eye-icon eye-open" onclick="toggleLoginPassword()" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="2" viewBox="0 0 24 24">
-  <circle cx="12" cy="12" r="3"/>
-  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8"/>
-  <line x1="4" y1="4" x2="20" y2="20" stroke="black" stroke-width="2" class="blink-line" style="display:none"/>
-</svg>
+    <div class="password-box">
+      <input type="password" id="loginPass" placeholder="Password" onkeyup="checkLoginStrength()">
+      <!-- Visible Eye -->
+      <svg id="loginEye" class="eye-icon" onclick="toggleLoginPassword()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path id="loginEyePath" d="M1 12C1 12 5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/>
+        <circle id="loginEyeCircle" cx="12" cy="12" r="3"/>
+      </svg>
+    </div>
 
-</div>
+    <small id="loginStrength"></small>
 
-<button onclick="login()">Login</button>
-<p class="link" onclick="showSignup()">Create Account</p>
+    <button onclick="login()">Login</button>
+    <p class="link" onclick="showSignup()">Create Account</p>
+  </div>
 
-</div>
+  <!-- SIGN UP FORM -->
+  <div id="signupForm" style="display:none;">
+    <h2 style="color: #f04e23;">Sign Up</h2>
 
-<!-- SIGN UP FORM -->
-<div id="signupForm" style="display:none">
+    <input id="signupUser" placeholder="Username">
+    <input id="signupContact" placeholder="Contact Number" oninput="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="11">
+    <input id="signupAddress" placeholder="Address">
+    <input id="signupEmail" placeholder="Email">
 
-<h2 style="color: #f04e23;">Sign Up</h2>
+    <div class="password-box">
+      <input type="password" id="signupPass" placeholder="Password" onkeyup="checkSignupStrength()">
+      <!-- Visible Eye -->
+      <svg id="signupEye" class="eye-icon" onclick="toggleSignupPassword()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path id="signupEyePath" d="M1 12C1 12 5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/>
+        <circle id="signupEyeCircle" cx="12" cy="12" r="3"/>
+      </svg>
+    </div>
 
-<input id="signupUser" placeholder="Username">
+    <small id="signupStrength"></small>
 
-<input id="signupContact" placeholder="Contact Number" oninput="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="11">
-
-<input id="signupAddress" placeholder="Address">
-
-<input id="signupEmail" placeholder="Email">
-
-<div class="password-box">
-<input type="password" id="signupPass" placeholder="Password">
-
-<svg id="signupEye" class="eye-icon eye-open" onclick="toggleSignupPassword()" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="2" viewBox="0 0 24 24">
-  <circle cx="12" cy="12" r="3"/>
-  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8"/>
-  <line x1="4" y1="4" x2="20" y2="20" stroke="black" stroke-width="2" class="blink-line" style="display:none"/>
-</svg>
-
-</div>
-
-<button onclick="signup()">Sign Up</button>
-<p class="link" onclick="showLogin()">Already have account?</p>
-
-</div>
+    <button onclick="signup()">Sign Up</button>
+    <p class="link" onclick="showLogin()">Already have account?</p>
+  </div>
 
 </div>
 
 <script>
+function showNotification(msg, icon="⚠️", duration=3000){
+  const notif = document.getElementById("notification");
+  document.getElementById("notif-msg").textContent = msg;
+  document.getElementById("notif-icon").textContent = icon;
+  notif.style.display = "flex";
+  setTimeout(() => { notif.style.display = "none"; }, duration);
+}
+
 function toggleLoginPassword(){
-  let pass=document.getElementById("loginPass");
-  let eye=document.getElementById("loginEye");
-  if(pass.type==="password"){
-    pass.type="text";
-    eye.classList.remove("eye-closed");
-    eye.classList.add("eye-open");
-    eye.querySelector(".blink-line").style.display="none";
-  } else{
-    pass.type="password";
-    eye.classList.remove("eye-open");
-    eye.classList.add("eye-closed");
-    eye.querySelector(".blink-line").style.display="block";
+  const pass = document.getElementById("loginPass");
+  const eyeCircle = document.getElementById("loginEyeCircle");
+
+  if(pass.type === "password"){
+    pass.type = "text";
+    eyeCircle.setAttribute("r",0);
+  } else {
+    pass.type = "password";
+    eyeCircle.setAttribute("r",3);
   }
 }
 
 function toggleSignupPassword(){
-  let pass=document.getElementById("signupPass");
-  let eye=document.getElementById("signupEye");
-  if(pass.type==="password"){
-    pass.type="text";
-    eye.classList.remove("eye-closed");
-    eye.classList.add("eye-open");
-    eye.querySelector(".blink-line").style.display="none";
-  } else{
-    pass.type="password";
-    eye.classList.remove("eye-open");
-    eye.classList.add("eye-closed");
-    eye.querySelector(".blink-line").style.display="block";
+  const pass = document.getElementById("signupPass");
+  const eyeCircle = document.getElementById("signupEyeCircle");
+
+  if(pass.type === "password"){
+    pass.type = "text";
+    eyeCircle.setAttribute("r",0);
+  } else {
+    pass.type = "password";
+    eyeCircle.setAttribute("r",3);
   }
 }
 
 function showSignup(){
-  loginForm.style.display="none";
-  signupForm.style.display="block";
+  document.getElementById("loginForm").style.display="none";
+  document.getElementById("signupForm").style.display="block";
 }
 
 function showLogin(){
-  signupForm.style.display="none";
-  loginForm.style.display="block";
+  document.getElementById("signupForm").style.display="none";
+  document.getElementById("loginForm").style.display="block";
+}
+
+function checkPasswordStrength(password){
+  let strength = "weak";
+
+  const hasUpper = /[A-Z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSymbol = /[^A-Za-z0-9]/.test(password);
+
+  if(password.length >= 8 && hasUpper && hasNumber && hasSymbol){
+    strength = "strong";
+  } else if(password.length >= 6 && (hasUpper || hasNumber)){
+    strength = "medium";
+  }
+
+  return strength;
+}
+
+function checkSignupStrength(){
+  let pass = document.getElementById("signupPass").value;
+  let msg = document.getElementById("signupStrength");
+
+  if(pass.length === 0){
+    msg.textContent="";
+    return;
+  }
+
+  const result = checkPasswordStrength(pass);
+  msg.textContent = result.charAt(0).toUpperCase() + result.slice(1) + " password";
+  msg.className = result;
 }
 
 function signup(){
-  let user = signupUser.value.trim();
-  let pass = signupPass.value.trim();
-  let email = signupEmail.value.trim();
-  let contact = signupContact.value.trim();
-  let address = signupAddress.value.trim();
+  const user = document.getElementById("signupUser").value.trim();
+  const pass = document.getElementById("signupPass").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const contact = document.getElementById("signupContact").value.trim();
+  const address = document.getElementById("signupAddress").value.trim();
 
   if(!user || !pass || !email || !contact || !address){
-    alert("Fill all fields");
+    showNotification("Fill all fields", "⚠️"); 
     return;
   }
 
-  // Email validation
-  let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
   if(!email.match(emailPattern)){
-    alert("Enter a valid email");
+    showNotification("Enter a valid email", "⚠️"); 
     return;
   }
 
-  // Contact validation
-  if(contact.length!==11){
-    alert("Contact number must be 11 digits");
+  if(contact.length !== 11){
+    showNotification("Contact number must be 11 digits", "⚠️"); 
+    return;
+  }
+
+  if(checkPasswordStrength(pass) === "weak"){
+    showNotification("Password too weak!", "⚠️"); 
     return;
   }
 
   if(localStorage.getItem(user)){
-    alert("Username already exists");
+    showNotification("Username already exists", "⚠️"); 
     return;
   }
 
-  localStorage.setItem(user, JSON.stringify({username:user,password:pass,email,contact,address}));
-  alert("Account Created!");
+  localStorage.setItem(user, JSON.stringify({
+    username:user,
+    password:pass,
+    email:email,
+    contact:contact,
+    address:address
+  }));
+
+  showNotification("Account Created!", "✅");
   showLogin();
 }
 
 function login(){
-  let user=loginUser.value.trim();
-  let pass=loginPass.value.trim();
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value.trim();
 
-  let stored=localStorage.getItem(user);
-  if(!stored){ alert("User not found"); return; }
+  const stored = localStorage.getItem(user);
 
-  let data=JSON.parse(stored);
-  if(data.password!==pass){ alert("Wrong password"); return; }
+  if(!stored){
+    showNotification("User not found", "❌"); 
+    return;
+  }
+
+  const data = JSON.parse(stored);
+
+  if(data.password !== pass){
+    showNotification("Wrong password", "❌"); 
+    return;
+  }
 
   localStorage.setItem("currentUser", user);
-  window.location="shop.html";
+  showNotification("Login successful!", "✅");
+
+  setTimeout(()=>{
+    window.location="shop.html";
+  },1000);
 }
 </script>
 
