@@ -5,82 +5,108 @@
 <title>Nova Shop</title>
 
 <style>
-
 body{
-margin:0;
-font-family:Segoe UI;
-background:#f4f4f4;
+  margin:0;
+  font-family:Segoe UI;
+  background:#f4f4f4;
 }
 
+/* NAVBAR */
 .navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:#f04e23;
-padding:10px 20px;
-color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#f04e23;
+  padding:10px 20px;
+  color:white;
 }
 
 .logo{
-font-size:1.5rem;
-font-weight:bold;
+  font-size:1.5rem;
+  font-weight:bold;
 }
 
-.navbar input{
-width:40%;
-padding:8px;
-border-radius:20px;
-border:none;
+/* Search bar wrapper */
+.search-wrapper{
+  position:relative;
+  width:40%;
+}
+
+/* Search input */
+.search-wrapper input[type="search"] {
+  width:100%;
+  padding:8px 35px 8px 10px; /* extra right padding for icon */
+  border-radius:20px;
+  border:none;
+  color:white;
+  background:rgba(255,255,255,0.2);
+  outline: none; /* REMOVE the black outline */
+}
+
+.search-wrapper input[type="search"]::placeholder {
+  color:#fff;
+}
+
+/* Search icon inside input */
+.search-icon {
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  pointer-events:none; /* allows typing without blocking input */
+  width:16px;
+  height:16px;
+  fill:white;
+  opacity:0.8;
 }
 
 .nav-links{
-display:flex;
-gap:20px;
-align-items:center;
+  display:flex;
+  gap:20px;
+  align-items:center;
 }
 
 .cart-box,.profile-box{
-display:flex;
-gap:5px;
-cursor:pointer;
+  display:flex;
+  gap:5px;
+  cursor:pointer;
 }
 
 .product-container{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  padding:20px;
 }
 
 .product-card{
-background:white;
-padding:15px;
-border-radius:10px;
-text-align:center;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
 .product-card img{
-width:100%;
-height:150px;
-object-fit:contain;
+  width:100%;
+  height:150px;
+  object-fit:contain;
 }
 
 .price{
-color:#f04e23;
-font-weight:bold;
+  color:#f04e23;
+  font-weight:bold;
 }
 
 .product-card button{
-background:#f04e23;
-color:white;
-border:none;
-padding:10px;
-width:100%;
-border-radius:5px;
-cursor:pointer;
+  background:#f04e23;
+  color:white;
+  border:none;
+  padding:10px;
+  width:100%;
+  border-radius:5px;
+  cursor:pointer;
 }
-
 </style>
 </head>
 
@@ -88,95 +114,122 @@ cursor:pointer;
 
 <div class="navbar">
 
-<div class="logo">Nova</div>
+  <div class="logo">Nova</div>
 
-<input type="search" id="searchInput" placeholder="Search..." onkeyup="filterProducts()">
+  <!-- Search bar with icon -->
+  <div class="search-wrapper">
+    <input type="search" id="searchInput" placeholder="Search..." onkeyup="filterProducts()">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M21 21l-4.35-4.35m2.85-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
 
-<div class="nav-links">
-
-<div class="cart-box" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
-
-<div class="profile-box" onclick="openAccount()">👤 <span id="profileLink"></span></div>
-
-<div onclick="logout()">Logout</div>
-
-</div>
+  <div class="nav-links">
+    <div class="cart-box" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
+    <div class="profile-box" onclick="openAccount()">👤 <span id="profileLink"></span></div>
+    <div onclick="logout()">Logout</div>
+  </div>
 
 </div>
 
 <div class="product-container" id="productContainer"></div>
 
 <script>
-
 let products=[
-{name:"Headphones",price:20,img:"https://via.placeholder.com/150"},
-{name:"Phone Case",price:8,img:"https://via.placeholder.com/150"},
-{name:"Keyboard",price:30,img:"https://via.placeholder.com/150"},
-{name:"Mouse",price:15,img:"https://via.placeholder.com/150"}
+  {name:"Headphones",price:20,img:"https://via.placeholder.com/150"},
+  {name:"Phone Case",price:8,img:"https://via.placeholder.com/150"},
+  {name:"Keyboard",price:30,img:"https://via.placeholder.com/150"},
+  {name:"Mouse",price:15,img:"https://via.placeholder.com/150"}
 ];
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
 function updateCart(){
-cartCount.textContent=cart.length;
+  let count = cart.reduce((sum,item)=>sum+(item.qty||1),0);
+  document.getElementById("cartCount").textContent = count;
 }
 
 function addToCart(i){
-cart.push(products[i]);
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
+  let product = products[i];
+  let existing = cart.find(item => item.name === product.name);
+  if(existing){
+    existing.qty = (existing.qty || 1) + 1;
+  }else{
+    cart.push({
+      name: product.name,
+      price: product.price,
+      img: product.img,
+      qty: 1
+    });
+  }
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateCart();
 }
 
-function renderProducts(list=products){
+function renderProducts(list = products){
+  let container = document.getElementById("productContainer");
+  container.innerHTML = "";
 
-productContainer.innerHTML="";
+  // If no products found
+  if(list.length === 0){
+    container.innerHTML = `
+      <div style="
+        grid-column:1/-1;
+        text-align:center;
+        font-size:20px;
+        color:#888;
+        padding:40px;
+      ">
+        🔍 Product not available
+      </div>
+    `;
+    return;
+  }
 
-list.forEach((p,i)=>{
-
-productContainer.innerHTML+=`
-<div class="product-card">
-<img src="${p.img}">
-<h3>${p.name}</h3>
-<p class="price">$${p.price}</p>
-<button onclick="addToCart(${i})">Add To Cart</button>
-</div>
-`;
-
-});
-
+  list.forEach((p,i)=>{
+    container.innerHTML += `
+      <div class="product-card">
+        <img src="${p.img}">
+        <h3>${p.name}</h3>
+        <p class="price">₱${p.price}</p>
+        <button onclick="addToCart(${i})">Add To Cart</button>
+      </div>
+    `;
+  });
 }
 
 function filterProducts(){
-let input=searchInput.value.toLowerCase();
-let filtered=products.filter(p=>p.name.toLowerCase().includes(input));
-renderProducts(filtered);
+  let input = document.getElementById("searchInput").value.toLowerCase().trim();
+
+  // If search is empty show all products
+  if(input === ""){
+    renderProducts(products);
+    return;
+  }
+
+  let filtered = products.filter(p =>
+    p.name.toLowerCase().includes(input)
+  );
+
+  renderProducts(filtered);
 }
 
-function openCart(){
-window.location="cart.html";
-}
-
-function openAccount(){
-window.location="account.html";
-}
-
+function openCart(){ window.location="cart.html"; }
+function openAccount(){ window.location="account.html"; }
 function logout(){
-    let confirmLogout = confirm("Do you want to log out?");
-    if(confirmLogout){
+    if(confirm("Do you want to log out?")){
         localStorage.removeItem("currentUser");
         window.location="index.html";
     }
 }
 
 let currentUser=localStorage.getItem("currentUser");
-
 if(currentUser){
-profileLink.textContent=currentUser;
+  document.getElementById("profileLink").textContent=currentUser;
 }
 
 updateCart();
 renderProducts();
-
 </script>
 
 </body>
