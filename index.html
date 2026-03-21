@@ -6,6 +6,16 @@
 <title>Nova Store</title>
 
 <style>
+
+  label {
+  display: block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  color: #063378;
+  font-size: 14px;
+}
+
 body{
   margin:0;
   font-family:Segoe UI;
@@ -18,7 +28,7 @@ body{
   justify-content:space-between;
   align-items:center;
   background:#063378;
-  padding:10px 20px;
+  padding:0px 20px;
   color:white;
   position:sticky;
   top:0;
@@ -96,14 +106,16 @@ body{
   margin-bottom:20px;
 }
 
-.hero button{
-  background:#063378;
-  border:none;
-  padding:12px 30px;
-  color:white;
-  border-radius:25px;
-  font-size:16px;
-  cursor:pointer;
+.hero button {
+  background: #063378;
+  border: none;
+  padding: 8px 16px; /* small padding just around text */
+  color: white;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  width: auto;         /* ensures it doesn’t stretch */
+  white-space: nowrap; /* keeps text on one line */
 }
 
 /* PRODUCTS */
@@ -134,6 +146,28 @@ body{
   object-fit:contain;
 }
 
+/* Global button style */
+button {
+  transition: transform 0.2s, box-shadow 0.3s, background 0.3s, color 0.3s;
+}
+
+/* Hover effect for all buttons */
+button:hover {
+  transform: scale(1.05);       /* Slight zoom */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Checkout button specific */
+.checkout-btn {
+  background: #16a34a; /* green */
+  margin-top:5px;
+  color:white;
+}
+
+.checkout-btn:hover {
+  background: #22c55e;
+}
+
 .price{
   color:#063378;
   font-weight:bold;
@@ -147,6 +181,26 @@ body{
   width:100%;
   border-radius:5px;
   cursor:pointer;
+}
+
+/* Product card hover effect */
+.product-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer; /* indicate it's interactive */
+}
+
+.product-card:hover {
+  transform: translateY(-5px) scale(1.03); /* slight lift and zoom */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.641); /* bigger shadow on hover */
+}
+
+/* Optional: slightly enlarge the image inside on hover */
+.product-card img {
+  transition: transform 0.3s;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
 }
 
 /* FEATURED HEADER */
@@ -241,6 +295,113 @@ body{
 .footer-policy a:hover{
   color:white;
 }
+
+.modal{
+  display:none;
+  position:fixed;
+  z-index:2000;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6); /* dark semi-transparent overlay */
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-box{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100%;
+}
+
+.container{
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  width: 360px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+  position: relative;
+}
+
+.container h2{
+  text-align:center;
+  color:#063378;
+}
+
+input{
+  width:95%;
+  padding:8px;
+  margin:10px 0;
+  border-radius:10px;
+  border:1px solid #063378;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  background:#063378;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+button:hover{background:#0255a0;}
+
+.link{
+  text-align:center;
+  cursor:pointer;
+  color:#063378;
+  margin-top:10px;
+}
+
+.password-box{
+  position:relative;
+}
+
+.eye-icon{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  width:24px;
+  height:24px;
+}
+
+small{
+  font-size:13px;
+  display:block;
+  margin-top:-5px;
+  margin-bottom:5px;
+}
+
+.weak{color:red;}
+.medium{color:orange;}
+.strong{color:green;}
+
+#notification{
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  color: #063378;
+  border:1px solid #063378;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
 </style>
 </head>
 <body>
@@ -248,15 +409,12 @@ body{
 <!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">Nova</div>
-
   <div class="search-wrapper">
-    <input type="search" id="searchInput" placeholder="Search..." 
-onkeyup="filterProducts()" onclick="scrollToFeatured()">
+    <input type="search" id="searchInput" placeholder="Search..." onkeyup="filterProducts()" onclick="scrollToFeatured()">
     <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path d="M21 21l-4.35-4.35m2.85-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0z" stroke="white" stroke-width="2"/>
     </svg>
   </div>
-
   <div class="nav-links">
     <div class="profile-box" onclick="openAccount()">👤 Login</div>
   </div>
@@ -269,18 +427,15 @@ onkeyup="filterProducts()" onclick="scrollToFeatured()">
   <button onclick="loginAlert()">Shop Now</button>
 </section>
 
-<!-- FEATURED PRODUCTS TITLE -->
+<!-- FEATURED PRODUCTS -->
 <section class="featured-header" id="featuredProducts">
-
   <div class="featured-text">
     <h2>Featured Products</h2>
     <p>Discover our most popular components and accessories.</p>
   </div>
-
   <div class="featured-view">
     <a href="#" onclick="loginAlert()">View All →</a>
   </div>
-
 </section>
 
 <!-- PRODUCTS -->
@@ -288,59 +443,118 @@ onkeyup="filterProducts()" onclick="scrollToFeatured()">
 
 <!-- FOOTER -->
 <footer class="footer">
-
   <div class="footer-container">
-
     <div class="footer-brand">
       <h2>Nova</h2>
-      <p>
-        Premium computer components and peripherals for enthusiasts,
-        gamers, and professionals. Elevate your setup with Nova.
-      </p>
+      <p>Premium computer components and peripherals for enthusiasts, gamers, and professionals. Elevate your setup with Nova.</p>
     </div>
-
     <div class="footer-links">
       <h3>Quick Links</h3>
       <a href="#">Home</a>
       <a href="#" onclick="loginAlert()">Shop All</a>
-      <a href="#"onclick="loginAlert()">Your Cart</a>
+      <a href="#" onclick="loginAlert()">Your Cart</a>
     </div>
-
     <div class="footer-links">
       <h3>Account</h3>
-      <a href="login.html">Log-in/Sign-up</a>
+      <a href="#" onclick="openAccount()">Log-in/Sign-up</a>
     </div>
-
   </div>
-
   <div class="footer-bottom">
     <p>© 2026 Nova Computer Accessories. All rights reserved.</p>
-
     <div class="footer-policy">
-  <a href="#" onclick="showPrivacy()">Privacy Policy</a>
-  <a href="#" onclick="showTerms()">Terms of Service</a>
-</div>
+      <a href="#" onclick="showPrivacy()">Privacy Policy</a>
+      <a href="#" onclick="showTerms()">Terms of Service</a>
+    </div>
   </div>
-
 </footer>
 
+<!-- LOGIN/SIGNUP MODAL -->
+<div id="accountModal" class="modal">
+  <div class="modal-box">
+    <div class="container">
+
+      <!-- CLOSE BUTTON -->
+      <span onclick="document.getElementById('accountModal').style.display='none'" style="float:right; cursor:pointer; font-size:20px;">&times;</span>
+
+      <!-- NOTIFICATION -->
+      <div id="notification">
+        <span id="notif-icon"></span>
+        <span id="notif-msg"></span>
+      </div>
+
+      <!-- LOGIN FORM -->
+     <div id="loginForm">
+  <h2 style="color: #063378;">Login</h2>
+
+  <label for="loginUser">Username</label>
+  <input id="loginUser" type="text" placeholder="">
+
+  <label for="loginPass">Password</label>
+ <div class="password-box">
+  <input type="password" id="loginPass" placeholder="">
+  
+  <!-- Eye Icons -->
+  <svg id="loginEyeShow" class="eye-icon" onclick="toggleLoginPassword()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+
+  <svg id="loginEyeHide" class="eye-icon" onclick="toggleLoginPassword()" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17.94 17.94L6.06 6.06M1 1l22 22"/>
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+  </svg>
+</div>
+
+  <small id="loginStrength"></small>
+  <button onclick="login()">Login</button>
+  <p class="link" onclick="showSignup()">Create Account</p>
+</div>
+
+      <!-- SIGNUP FORM -->
+     <div id="signupForm" style="display:none;">
+  <h2 style="color: #063378;">Sign Up</h2>
+
+  <label for="signupUser">Username</label>
+  <input id="signupUser" type="text" placeholder="">
+
+  <label for="signupContact">Contact Number</label>
+  <input id="signupContact" type="text" placeholder="" maxlength="11" 
+         oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+
+  <label for="signupAddress">Address</label>
+  <input id="signupAddress" type="text" placeholder="">
+
+  <label for="signupEmail">Email</label>
+  <input id="signupEmail" type="email" placeholder="">
+
+  <label for="signupPass">Password</label>
+ <div class="password-box">
+  <input type="password" id="signupPass" placeholder="">
+
+  <!-- Eye Icons for Sign Up -->
+  <svg id="signupEyeShow" class="eye-icon" onclick="toggleSignupPassword()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+
+  <svg id="signupEyeHide" class="eye-icon" onclick="toggleSignupPassword()" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17.94 17.94L6.06 6.06M1 1l22 22"/>
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+  </svg>
+</div>
+
+  <small id="signupStrength"></small>
+  <button onclick="signup()">Sign Up</button>
+  <p class="link" onclick="showLogin()">Already have account?</p>
+</div>
+
+    </div>
+  </div>
+</div>
+
 <script>
-
-  function scrollToFeatured(){
-  document.getElementById("featuredProducts").scrollIntoView({
-    behavior:"smooth"
-  });
-}
-
-  function showPrivacy(){
-  alert("Privacy Policy\n\nNova respects your privacy. We do not sell or share your personal information. Any data collected such as login details or shopping activity is only used to improve your experience on our store.");
-}
-
-function showTerms(){
-  alert("Terms of Service\n\nBy using Nova Store, you agree to browse responsibly and log in before making purchases. All product listings and prices are subject to change. Misuse of the platform may result in restricted access.");
-}
-
-let products=[  
+/* ---------------- PRODUCT & MODAL FUNCTIONS ---------------- */
+let products=[
   {name:"Headphones",price:800,img:"https://m.media-amazon.com/images/I/61CGHv6kmWL.jpg"},
   {name:"Phone Case",price:600,img:"https://m.media-amazon.com/images/I/61tC0X5lYCL.jpg"},
   {name:"Keyboard",price:1000,img:"https://m.media-amazon.com/images/I/71kr3WAj1FL.jpg"},
@@ -353,13 +567,14 @@ let products=[
 function renderProducts(list=products){
   let container=document.getElementById("productContainer");
   container.innerHTML="";
-  list.forEach((p,i)=>{
+  list.forEach(p=>{
     container.innerHTML+=`
       <div class="product-card">
         <img src="${p.img}">
         <h3>${p.name}</h3>
         <p class="price">₱${p.price}</p>
         <button onclick="loginAlert()">Add To Cart</button>
+        <button class="checkout-btn" onclick="loginAlert()">Checkout</button>
       </div>
     `;
   });
@@ -371,17 +586,146 @@ function filterProducts(){
   renderProducts(filtered);
 }
 
-function loginAlert(){
-  alert("Log in first");
-  window.location="login.html";
+function scrollToFeatured(){
+  document.getElementById("featuredProducts").scrollIntoView({behavior:"smooth"});
 }
 
-function openAccount(){
-  window.location="login.html";
+function showPrivacy(){ alert("Privacy Policy\nNova respects your privacy..."); }
+function showTerms(){ alert("Terms of Service\nBy using Nova Store..."); }
+
+function loginAlert(){ document.getElementById("accountModal").style.display="flex"; }
+function openAccount(){ document.getElementById("accountModal").style.display="flex"; }
+
+window.onclick=function(e){
+  let modal=document.getElementById("accountModal");
+  if(e.target===modal){ modal.style.display="none"; }
 }
 
 renderProducts();
-</script>
 
+/* ---------------- LOGIN/SIGNUP FUNCTIONS ---------------- */
+function showNotification(msg,icon="",duration=3000){
+  const notif=document.getElementById("notification");
+  document.getElementById("notif-msg").textContent=msg;
+  document.getElementById("notif-icon").textContent=icon;
+  notif.style.display="flex";
+  setTimeout(()=>{ notif.style.display="none"; },duration);
+}
+
+function toggleLoginPassword(){
+  const pass = document.getElementById("loginPass");
+  const showIcon = document.getElementById("loginEyeShow");
+  const hideIcon = document.getElementById("loginEyeHide");
+
+  if(pass.type === "password"){
+    pass.type = "text";
+    showIcon.style.display = "none";
+    hideIcon.style.display = "block";
+  } else {
+    pass.type = "password";
+    showIcon.style.display = "block";
+    hideIcon.style.display = "none";
+  }
+}
+
+function toggleSignupPassword(){
+  const pass = document.getElementById("signupPass");
+  const showIcon = document.getElementById("signupEyeShow");
+  const hideIcon = document.getElementById("signupEyeHide");
+
+  if(pass.type === "password"){
+    pass.type = "text";
+    showIcon.style.display = "none";
+    hideIcon.style.display = "block";
+  } else {
+    pass.type = "password";
+    showIcon.style.display = "block";
+    hideIcon.style.display = "none";
+  }
+}
+
+function showSignup(){ document.getElementById("loginForm").style.display="none"; document.getElementById("signupForm").style.display="block"; }
+function showLogin(){ document.getElementById("signupForm").style.display="none"; document.getElementById("loginForm").style.display="block"; }
+
+/* ---------------- PASSWORD STRENGTH ---------------- */
+function checkPasswordStrength(password){
+  let strength="weak";
+  const hasUpper=/[A-Z]/.test(password);
+  const hasNumber=/[0-9]/.test(password);
+  const hasSymbol=/[^A-Za-z0-9]/.test(password);
+  if(password.length>=8 && hasUpper && hasNumber && hasSymbol) strength="strong";
+  else if(password.length>=6 && (hasUpper||hasNumber)) strength="medium";
+  return strength;
+}
+
+function checkSignupStrength(){
+  let pass=document.getElementById("signupPass").value;
+  let msg=document.getElementById("signupStrength");
+  if(pass.length===0){ msg.textContent=""; return; }
+  const result=checkPasswordStrength(pass);
+  msg.textContent=result.charAt(0).toUpperCase()+result.slice(1)+" password";
+  msg.className=result;
+}
+
+/* ---------------- SIGNUP VALIDATION ---------------- */
+function signup(){
+  const user=document.getElementById("signupUser").value.trim();
+  const pass=document.getElementById("signupPass").value.trim();
+  const email=document.getElementById("signupEmail").value.trim();
+  const contact=document.getElementById("signupContact").value.trim();
+  const address=document.getElementById("signupAddress").value.trim();
+
+  if(!user||!pass||!email||!contact||!address){
+    showNotification("Fill all fields");
+    return;
+  }
+
+  const emailPattern=/^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  if(!email.match(emailPattern)){
+    showNotification("Enter a valid email");
+    return;
+  }
+
+  if(contact.length!==11 || !/^[0-9]+$/.test(contact)){
+    showNotification("Contact must be 11 digits");
+    return;
+  }
+
+  const passStrength=checkPasswordStrength(pass);
+  if(passStrength==="weak"){
+    showNotification("Password too weak! Must be 8+ chars with number, uppercase & symbol");
+    return;
+  }
+
+  if(localStorage.getItem(user)){
+    showNotification("Username already exists",);
+    return;
+  }
+
+  localStorage.setItem(user,JSON.stringify({username:user,password:pass,email:email,contact:contact,address:address}));
+  showNotification("Account Created!");
+  showLogin();
+}
+
+/* ---------------- LOGIN VALIDATION ---------------- */
+function login(){
+  const user=document.getElementById("loginUser").value.trim();
+  const pass=document.getElementById("loginPass").value.trim();
+  const stored=localStorage.getItem(user);
+
+  if(!stored){ showNotification("User not found"); return; }
+
+  const data=JSON.parse(stored);
+  if(data.password!==pass){ showNotification("Wrong password"); return; }
+
+  localStorage.setItem("currentUser",user);
+  showNotification("Login successful!");
+  setTimeout(()=>{ window.location="shop.html"; },1000);
+}
+
+/* ---------------- PASSWORD STRENGTH LIVE UPDATE ---------------- */
+document.getElementById("signupPass").addEventListener("keyup",checkSignupStrength);
+
+</script>
 </body>
 </html>
