@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+make the star accurate to same products <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,6 +6,179 @@
 <title>Nova Shop</title>
 
 <style>
+
+  /* Global button hover effect */
+button {
+  transition: transform 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);       /* Slight zoom */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* Soft shadow */
+}
+
+  /* Modal buttons container */
+.modal-content button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+/* Checkout button (primary) */
+.modal-content .buy-btn{
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  color:white;
+  margin-bottom:8px;
+  box-shadow:0 4px 10px rgba(0, 0, 0, 0.574);
+}
+
+/* Hover effect */
+.modal-content .buy-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 6px 15px rgba(10, 1, 1, 0.682);
+}
+
+/* Add to cart button (secondary) */
+.modal-content button:not(.buy-btn){
+  background:#f1f5f9;
+  color:#063378;
+  border:2px solid #063378;
+}
+
+/* Hover effect */
+.modal-content button:not(.buy-btn):hover{
+  background:#063378;
+  color:white;
+  transform:scale(1.05);
+}
+
+  .stars{
+  display:flex;
+  justify-content:center;
+  gap:4px;
+  margin:5px 0;
+}
+
+.star{
+  width:18px;
+  height:18px;
+  fill:#ccc;
+}
+
+.star.filled{
+  fill:#facc15;
+}
+
+  .modal{
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.modal-content{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  width:300px;
+  text-align:center;
+  position:relative;
+}
+
+.modal-content img{
+  width:150px;
+  height:150px;
+  object-fit:contain;
+}
+
+.close{
+  position:absolute;
+  right:10px;
+  top:10px;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.qty-box{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin:5px 0;
+}
+
+.qty-box button{
+  width:35px;          /* make it square-ish for better touch */
+  height:35px;
+  display:flex;        /* use flex to center content */
+  justify-content:center;
+  align-items:center;
+  font-size:18px;      /* bigger for readability */
+  font-weight:bold;
+  border:none;
+  background:#f1f5f9;
+  color:#063378;
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.qty-box button:hover{
+  background:#063378;
+  color:white;
+  transform:scale(1.1);
+}
+
+.buy-btn{
+  background:#16a34a;
+  margin-top:5px;
+}
+
+/* Product card hover effect */
+.product-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer; /* indicate it's interactive */
+}
+
+.product-card:hover {
+  transform: translateY(-5px) scale(1.03); /* slight lift and zoom */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.703); /* bigger shadow on hover */
+}
+
+/* Optional: slightly enlarge the image inside on hover */
+.product-card img {
+  transition: transform 0.3s;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+  .product-card button{
+  background:#063378;
+  color:white;
+  border:none;
+  padding:10px;
+  width:100%;
+  border-radius:5px;
+  cursor:pointer;
+  margin-top:5px;
+}
+
+/* Checkout button (second button) */
+.product-card button:last-child{
+  background:#16a34a; /* green */
+}
+
 body{
   margin:0;
   font-family:Segoe UI;
@@ -122,14 +295,21 @@ body{
   font-weight:bold;
 }
 
-.product-card button{
-  background:#063378;
+.product-card button:hover{
+  background:#0b54c1; /* or any color you like on hover */
   color:white;
-  border:none;
-  padding:10px;
-  width:100%;
-  border-radius:5px;
-  cursor:pointer;
+}
+
+.product-card button:first-child:hover {
+  background:#f1f5f9;
+  color:#063378;
+  transform: scale(1.05);
+}
+
+.product-card button:last-child:hover {
+  background:#16d15b;
+  color:white;
+  transform: scale(1.05);
 }
 
 /* FOOTER */
@@ -200,13 +380,207 @@ body{
   color:white;
 }
 
+.logo{
+  cursor:pointer;
+}
+
+.profile-box {
+  position: relative; /* Needed for dropdown positioning */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+/* Dropdown menu */
+.profile-dropdown {
+  display: none;              /* Hidden by default */
+  position: absolute;
+  top: 100%;                  /* Just below the profile box */
+  right: 0;                   /* Align to right */
+  background: white;
+  color: #063378;
+  border: 1px solid #063378;
+  border-radius: 8px;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.profile-dropdown a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #063378;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.profile-dropdown a:hover {
+  background: #063378;
+  color: white;
+}
+
+/* Show dropdown on hover */
+.profile-box:hover .profile-dropdown {
+  display: flex;
+}
+
+/* Add flex column for links */
+.profile-dropdown {
+  flex-direction: column;
+}
+
+/* Account Modal Inputs */
+#accountModal input {
+  width: 100%;
+  padding: 9px 12px;
+  margin: 0px 0 0px 0;
+  border-radius: 8px;
+  border: 0px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box;
+  background: #f9fafb;
+}
+
+/* Focus effect */
+#accountModal input:focus {
+  border-color: #063378;
+  box-shadow: 0 0 5px rgba(6, 51, 120, 0.3);
+  background: #fff;
+}
+
+/* Disabled inputs styling */
+#accountModal input:disabled {
+  background: #e5e7eb;
+  color: #555;
+  cursor: not-allowed;
+}
+
+/* Buttons inside modal for consistency */
+#accountModal button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+}
+
+#accountModal button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Edit button - primary */
+#editAccBtn {
+  background: #063378;
+  color: white;
+}
+
+#editAccBtn:hover {
+  background: #0b54c1;
+}
+
+/* Save button - green */
+#saveAccBtn {
+  background: #16a34a;
+  color: white;
+}
+
+#saveAccBtn:hover {
+  background: #22c55e;
+}
+
+
+
+#accountModal button:last-child:hover {
+  background: #063378;
+  color: white;
+}
+
+/* Container for label + input */
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Label style */
+.input-group label {
+  width: 100px;          /* fixed width for labels */
+  font-weight: 600;
+  color: #063378;
+}
+
+
+/* Input style */
+.input-group input {
+  width: calc(100% - 100px); /* modal width minus label width */
+  padding: 10px 200px;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+  background: #f9fafb;
+}
+
+/* Focus effect for input */
+.input-group input:focus {
+  border-color: #063378;
+  box-shadow: 0 0 5px rgba(6, 51, 120, 0.3);
+  background: #fff;
+}
+
+/* Disabled inputs */
+.input-group input:disabled {
+  background: #e5e7eb;
+  color: #555;
+  cursor: not-allowed;
+}
+
+.categorized-products {
+  padding: 20px;
+}
+
+.category-section {
+  margin-bottom: 40px;
+}
+
+.category-section h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #063378;
+}
+
+.category-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+
+.category-container::-webkit-scrollbar {
+  display: none;
+}
+
+.category-container .product-card {
+  min-width: 220px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="navbar">
-  <div class="logo">Nova</div>
+  <div class="logo" onclick="goHome()">Nova</div>
 
   <div class="search-wrapper">
     <input type="search" id="searchInput" placeholder="Search..." onkeyup="filterProducts()">
@@ -217,20 +591,48 @@ body{
   </div>
 
   <div class="nav-links">
-    <div class="cart-box" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
-    <div class="profile-box" onclick="openAccount()">👤 <span id="profileLink"></span></div>
-    <div onclick="logout()">Logout</div>
+  <div class="cart-box" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
+  
+  <div class="profile-box">
+    <!-- Replaced emoji with SVG icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;vertical-align:middle;margin-right:5px;" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+    </svg>
+    <span id="profileLink"></span>
+
+    <div id="profileDropdown" class="profile-dropdown">
+      <a href="#" onclick="openAccount()" style="display:flex; align-items:center; gap:5px;">
+        <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>
+        Account
+      </a>
+      <a href="#" onclick="logout()" style="display:flex; align-items:center; gap:5px;">
+        <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M6 3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3zm3.5 5l-2-2v1H2v2h5.5v1l2-2z"/>
+        </svg>
+        Logout
+      </a>
+    </div>
   </div>
+</div>
+
 </div>
 
 <!-- ALL PRODUCTS TITLE -->
 <section class="all-products-header">
-
   <div class="all-products-text">
     <h2>All Products</h2>
     <p>Browse our full collection of computer accessories.</p>
   </div>
+</section>
 
+<!-- All Products Container -->
+<div class="product-container" id="productContainer"></div> 
+
+<!-- CATEGORIZED PRODUCTS -->
+<section class="categorized-products" id="categorizedProductsContainer">
+  <!-- Categories will be injected here dynamically -->
 </section>
 
 <div class="product-container" id="productContainer"></div> 
@@ -269,6 +671,78 @@ body{
 
 <script>
 
+  window.onclick = function(e){
+  let modal = document.getElementById("productModal");
+  if(e.target === modal){
+    closeModal();
+  }
+}
+
+  let selectedProduct = null;
+let modalQty = 1;
+
+function openModal(i){
+  selectedProduct = products[i];
+  modalQty = 1;
+
+  document.getElementById("modalImg").src = selectedProduct.img;
+  document.getElementById("modalName").textContent = selectedProduct.name;
+  document.getElementById("modalPrice").textContent = "₱" + selectedProduct.price;
+  document.getElementById("modalQty").textContent = modalQty;
+
+  // Description (you can customize later)
+  document.getElementById("modalDesc").textContent =
+    "High-quality " + selectedProduct.name + " perfect for gaming and everyday use.";
+
+  document.getElementById("productModal").style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById("productModal").style.display = "none";
+}
+
+function changeQty(num){
+  modalQty += num;
+  if(modalQty < 1) modalQty = 1;
+  document.getElementById("modalQty").textContent = modalQty;
+}
+
+function confirmAddToCart(){
+  let existing = cart.find(item => item.name === selectedProduct.name);
+
+  if(existing){
+    existing.qty += modalQty;
+  }else{
+    cart.push({
+      name: selectedProduct.name,
+      price: selectedProduct.price,
+      img: selectedProduct.img,
+      qty: modalQty
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCart();
+  closeModal();
+}
+
+function confirmCheckout(){
+  let item = {
+    name: selectedProduct.name,
+    price: selectedProduct.price,
+    img: selectedProduct.img,
+    qty: modalQty
+  };
+
+  localStorage.setItem("checkoutItems", JSON.stringify([item]));
+  window.location = "checkout.html";
+}
+
+  function goHome(){
+  if(!window.location.href.includes("shop.html")){
+    window.location = "shop.html";
+  }
+}
   function showPrivacy(){
   alert("Privacy Policy\n\nNova respects your privacy. We do not sell or share your personal information.");
 }
@@ -290,6 +764,19 @@ let products=[
 ];
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
+// Helper to render star ratings for products
+function renderStars(rating = 4) {
+  let starsHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    if (i <= rating) {
+      starsHTML += `<svg class="star filled" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.2L18 21l-6-4-6 4 1.5-7.8L2 9h7z"/></svg>`;
+    } else {
+      starsHTML += `<svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.2L18 21l-6-4-6 4 1.5-7.8L2 9h7z"/></svg>`;
+    }
+  }
+  return `<div class="stars">${starsHTML}</div>`;
+}
 
 function updateCart(){
   let count = cart.reduce((sum,item)=>sum+(item.qty||1),0);
@@ -315,8 +802,24 @@ function addToCart(i){
   updateCart();
 }
 
-function renderProducts(list = products){
+function buyNow(i){
+  let product = products[i];
 
+  let item = {
+    name: product.name,
+    price: product.price,
+    img: product.img,
+    qty: 1
+  };
+
+  // Save as checkout item
+  localStorage.setItem("checkoutItems", JSON.stringify([item]));
+
+  // Redirect to checkout page
+  window.location = "checkout.html";
+}
+
+function renderProducts(list = products){
   let container = document.getElementById("productContainer");
   container.innerHTML = "";
 
@@ -334,12 +837,15 @@ function renderProducts(list = products){
   }
 
   list.forEach((p,i)=>{
+    let rating = Math.floor(Math.random() * 5) + 1; // Random rating 1-5
     container.innerHTML += `
       <div class="product-card">
         <img src="${p.img}">
         <h3>${p.name}</h3>
+        ${renderStars(rating)}
         <p class="price">₱${p.price}</p>
-        <button onclick="addToCart(${i})">Add To Cart</button>
+        <button onclick="openModal(${i})">Add To Cart</button>
+        <button onclick="openModal(${i})">Checkout</button>
       </div>
     `;
   });
@@ -377,10 +883,244 @@ if(currentUser){
   document.getElementById("profileLink").textContent=currentUser;
 }
 
+let categorizedProducts = [
+  {
+    category: "Accessories",
+    items: [
+      {name:"Headphones",price:800,img:"https://m.media-amazon.com/images/I/61CGHv6kmWL.jpg"},
+      {name:"Phone Case",price:600,img:"https://m.media-amazon.com/images/I/61tC0X5lYCL.jpg"},
+      {name:"Wireless Gaming Mouse",price:2500,img:"https://m.media-amazon.com/images/I/61LtuGzXeaL.jpg"}
+    ]
+  },
+  {
+    category: "Keyboards",
+    items: [
+      {name:"Keyboard",price:1000,img:"https://m.media-amazon.com/images/I/71kr3WAj1FL.jpg"},
+      {name:"RGB Mechanical Keyboard",price:3200,img:"https://m.media-amazon.com/images/I/71gB2ZKx3sL.jpg"}
+    ]
+  },
+  {
+    category: "Monitors",
+    items: [
+      {name:"Gaming Monitor",price:9500,img:"https://m.media-amazon.com/images/I/71p0vJb6q4L.jpg"}
+    ]
+  },
+  {
+    category: "PC Components",
+    items: [
+      {name:"RTX Graphics Card",price:45000,img:"https://m.media-amazon.com/images/I/81wC3H6H0zL.jpg"},
+      {name:"PC Case RGB",price:4200,img:"https://m.media-amazon.com/images/I/71c5H8N3yJL.jpg"}
+    ]
+  },
+  {
+    category: "Chairs",
+    items: [
+      {name:"Gaming Chair",price:7200,img:"https://m.media-amazon.com/images/I/71S6k1Dk7QL.jpg"}
+    ]
+  }
+];
+
+// Render categorized products
+function renderCategorizedProducts() {
+  let container = document.getElementById("categorizedProductsContainer");
+  container.innerHTML = "";
+
+  categorizedProducts.forEach(cat => {
+    let categoryHTML = `
+      <div class="category-section">
+        <h2>${cat.category}</h2>
+        <div class="category-container">
+          ${cat.items.map((p, i) => {
+            let rating = Math.floor(Math.random() * 5) + 1;
+            return `
+              <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                ${renderStars(rating)}
+                <p class="price">₱${p.price}</p>
+                <button onclick="openModalByProduct('${cat.category}', ${i})">Add To Cart</button>
+                <button onclick="openModalByProduct('${cat.category}', ${i})">Checkout</button>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      </div>
+    `;
+    container.innerHTML += categoryHTML;
+  });
+}
+
+// Open modal for categorized products
+function openModalByProduct(categoryName, index){
+  let cat = categorizedProducts.find(c => c.category === categoryName);
+  let product = cat.items[index];
+  selectedProduct = product;
+  modalQty = 1;
+
+  document.getElementById("modalImg").src = product.img;
+  document.getElementById("modalName").textContent = product.name;
+  document.getElementById("modalPrice").textContent = "₱" + product.price;
+  document.getElementById("modalQty").textContent = modalQty;
+
+  document.getElementById("modalDesc").textContent = "High-quality " + product.name + " perfect for gaming and everyday use.";
+
+  document.getElementById("productModal").style.display = "flex";
+}
+
 updateCart();
-renderProducts();
+renderProducts();             // Render ALL PRODUCTS first
+renderCategorizedProducts();   // Then render CATEGORIZED products
 
 </script>
 
+
+
+<div id="productModal" class="modal">
+  <div class="modal-content">
+
+    <span class="close" onclick="closeModal()">&times;</span>
+
+    <img id="modalImg">
+
+    <h2 id="modalName"></h2>
+    <p id="modalPrice"></p>
+
+    <!-- ⭐ Rating -->
+    <div id="modalRating" class="stars">
+  <svg class="star filled" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.2L18 21l-6-4-6 4 1.5-7.8L2 9h7z"/></svg>
+  <svg class="star filled" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.2L18 21l-6-4-6 4 1.5-7.8L2 9h7z"/></svg>
+  <svg class="star filled" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.2L18 21l-6-4-6 4 1.5-7.8L2 9h7z"/></svg>
+  <svg class="star filled" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.2L18 21l-6-4-6 4 1.5-7.8L2 9h7z"/></svg>
+  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.2L18 21l-6-4-6 4 1.5-7.8L2 9h7z"/></svg>
+</div>
+
+    <!-- Description -->
+    <p id="modalDesc" style="color:#555;"></p>
+
+    <!-- Quantity -->
+    <div class="qty-box">
+      <button onclick="changeQty(-1)">-</button>
+      <span id="modalQty">1</span>
+      <button onclick="changeQty(1)">+</button>
+    </div>
+
+    <!-- Buttons -->
+    <button onclick="confirmAddToCart()">Add to Cart</button>
+    <button onclick="confirmCheckout()" class="buy-btn">Checkout</button>
+  
+
+  </div>
+</div>
+
+<!-- ACCOUNT MODAL -->
+<!-- ACCOUNT MODAL -->
+<div id="accountModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeAccountModal()">&times;</span>
+    <h2>My Account</h2>
+
+    <div class="input-group">
+      <label>Username:</label>
+      <span id="accUsername"></span>
+    </div>
+
+    <div class="input-group">
+      <label>Email:</label>
+      <input type="email" id="accEmail" disabled>
+    </div>
+
+    <div class="input-group">
+      <label>Contact:</label>
+      <input type="text" id="accContact" disabled oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,11)">
+    </div>
+
+    <div class="input-group">
+      <label>Address:</label>
+      <input type="text" id="accAddress" disabled>
+    </div>
+
+    <button id="editAccBtn" onclick="enableAccEdit()">Edit</button>
+    <button id="saveAccBtn" onclick="saveAccChanges()" style="display:none;">Save</button>
+  </div>
+</div>
+
+<script>
+// Open account modal
+function openAccount(){
+  document.getElementById("accountModal").style.display = "flex";
+
+  // Load current user data
+  let currentUser = localStorage.getItem("currentUser");
+  if(!currentUser) return;
+
+  let data = JSON.parse(localStorage.getItem(currentUser)) || {};
+  document.getElementById("accUsername").textContent = data.username || currentUser;
+  document.getElementById("accEmail").value = data.email || "";
+  document.getElementById("accContact").value = data.contact || "";
+  document.getElementById("accAddress").value = data.address || "";
+}
+
+// Close account modal
+function closeAccountModal(){
+  document.getElementById("accountModal").style.display = "none";
+}
+
+// Enable editing
+function enableAccEdit(){
+  document.getElementById("accEmail").disabled = false;
+  document.getElementById("accContact").disabled = false;
+  document.getElementById("accAddress").disabled = false;
+  document.getElementById("editAccBtn").style.display = "none";
+  document.getElementById("saveAccBtn").style.display = "block";
+}
+
+// Save changes
+function saveAccChanges(){
+  let email = document.getElementById("accEmail").value.trim();
+  let contact = document.getElementById("accContact").value.trim();
+  let address = document.getElementById("accAddress").value.trim();
+
+  if(!email || !contact || !address){
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  if(contact.length !== 11 || isNaN(contact)){
+    alert("Contact must be 11 digits.");
+    return;
+  }
+
+  let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  if(!email.match(emailPattern)){
+    alert("Enter a valid email address.");
+    return;
+  }
+
+  let currentUser = localStorage.getItem("currentUser");
+  let data = JSON.parse(localStorage.getItem(currentUser)) || {};
+
+  data.email = email;
+  data.contact = contact;
+  data.address = address;
+
+  localStorage.setItem(currentUser, JSON.stringify(data));
+
+  document.getElementById("accEmail").disabled = true;
+  document.getElementById("accContact").disabled = true;
+  document.getElementById("accAddress").disabled = true;
+  document.getElementById("editAccBtn").style.display = "block";
+  document.getElementById("saveAccBtn").style.display = "none";
+
+  alert("Information updated successfully!");
+}
+
+// Close modal if click outside
+window.addEventListener('click', function(e){
+  let modal = document.getElementById("accountModal");
+  if(e.target === modal){
+    closeAccountModal();
+  }
+});
+</script>
 </body>
 </html>
