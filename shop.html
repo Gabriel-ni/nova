@@ -1,4 +1,4 @@
-make the star accurate to same products <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -653,7 +653,8 @@ body{
       <h3>Quick Links</h3>
       <a href="shop.html">Home</a>
       <a href="cart.html">Cart</a>
-      <a href="account.html">Account</a>
+      <a href="#" onclick="openAccount()">Account</a>
+      <a href="#" onclick="logout()">Logout</a>
     </div>
 
   </div>
@@ -751,18 +752,55 @@ function showTerms(){
   alert("Terms of Service\n\nBy using Nova Store you agree to follow our store rules and policies.");
 }
 
-let products=[  
+// Existing products array
+let products = [
+  // HEADSETS & ACCESSORIES
   {name:"Headphones",price:800,img:"https://m.media-amazon.com/images/I/61CGHv6kmWL.jpg"},
-  {name:"Phone Case",price:600,img:"https://m.media-amazon.com/images/I/61tC0X5lYCL.jpg"},
-  {name:"Keyboard",price:1000,img:"https://m.media-amazon.com/images/I/71kr3WAj1FL.jpg"},
-  {name:"Gaming Monitor",price:9500,img:"https://m.media-amazon.com/images/I/71p0vJb6q4L.jpg"},
-  {name:"RTX Graphics Card",price:45000,img:"https://m.media-amazon.com/images/I/81wC3H6H0zL.jpg"},
-  {name:"Gaming Chair",price:7200,img:"https://m.media-amazon.com/images/I/71S6k1Dk7QL.jpg"},
-  {name:"RGB Mechanical Keyboard",price:3200,img:"https://m.media-amazon.com/images/I/71gB2ZKx3sL.jpg"},
-  {name:"Wireless Gaming Mouse",price:2500,img:"https://m.media-amazon.com/images/I/61LtuGzXeaL.jpg"},
-  {name:"PC Case RGB",price:4200,img:"https://m.media-amazon.com/images/I/71c5H8N3yJL.jpg"}
-];
 
+
+  // MOUSE
+  {name:"Wireless Gaming Mouse",price:2500,img:"https://m.media-amazon.com/images/I/61LtuGzXeaL.jpg"},
+  {name:"Razer DeathAdder Essential Gaming Mouse",price:600,img:"https://ecommerce.datablitz.com.ph/cdn/shop/files/0810056142612_8cad40d6-7d10-40e0-aedd-ae9c1a64319a_800x.jpg?v=1729320153"},
+  {name:"Redragon Predator M612 RGB",price:1400,img:"https://redragonshop.com/cdn/shop/products/8000DPIWiredOpticalGamerMouse_2.png?v=1762457673&width=713"},
+  {name:"Fantech VX7 Crypto Wired Mouse",price:500,img:"https://down-my.img.susercontent.com/file/my-11134207-7rask-m8om2ybct7ke13"},
+  {name:"Logitech G203 Prodigy Mouse",price:1200,img:"https://m.media-amazon.com/images/I/61MP0FapL3L._AC_SL1500_.jpg"},
+  {name:"SteelSeries Rival 3 Mouse",price:1600,img:"https://shop.tti.com.ph/pub/media/catalog/product/cache/07dc43095bd992476134f3022ceb9abf/m/o/mou-ss-62513-2_1.png"},
+
+  // KEYBOARDS
+  {name:"Keyboard",price:1000,img:"https://m.media-amazon.com/images/I/71kr3WAj1FL.jpg"},
+  {name:"RGB Mechanical Keyboard",price:3200,img:"https://shop.tti.com.ph/pub/media/catalog/product/cache/07dc43095bd992476134f3022ceb9abf/h/i/high_resolution_png-g913tkl_blk_carbon_fob_jp.png"},
+  {name:"Razer BlackWidow V3 Keyboard",price:7800,img:"https://cdn.shopify.com/s/files/1/0460/2567/0805/products/RAZER-BLACKWIDOW-V3-TENKEYLESS-RAZER-GREEN-CLICKY-SWITCHES-COMPACT-MECHANICAL-KEYBOARD-RAZER-CHROMA-RGB-LIGHTING-KEYBOARD.jpg?v=1629717267"},
+  {name:"Logitech K120 Wired Keyboard",price:650,img:"https://shop.tti.com.ph/pub/media/catalog/product/cache/07dc43095bd992476134f3022ceb9abf/h/i/high_resolution_png-k120_top.png"},
+  {name:"Corsair K70 RGB Keyboard",price:9900,img:"https://assets.corsair.com/image/upload/c_pad,q_auto,h_1024,w_1024,f_auto/products/Gaming-Keyboards/CH-9000118-NA/Gallery/CGK70_RGB_NA_006.webp"},
+
+  // MONITORS
+  {name:"Gaming Monitor",price:9500,img:"https://m.media-amazon.com/images/I/71p0vJb6q4L.jpg"},
+  {name:"27\" FHD Gaming Monitor",price:13500,img:"https://images.philips.com/is/image/philipsconsumer/15ed562da5bf464eabb6b177009f1890?$pnglarge$&wid=1250"},
+  {name:"34\" Ultrawide Curved Monitor",price:24800,img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdRpwFMXfcQIvlCq9XvWn09uQLOIVRvUyq4Q&s"},
+  {name:"24\" IPS Monitor",price:8200,img:"https://www.lg.com/content/dam/channel/wcms/ph/images/monitors/24mk430h-b_aph_eacm_ph_c/gallery/DZ-01.jpg"},
+
+  // PC COMPONENTS
+  {name:"RTX Graphics Card",price:45000,img:"https://www.nvidia.com/content/nvidiaGDC/ph/en_PH/geforce/graphics-cards/_jcr_content/root/responsivegrid/nv_container_1965276325/nv_teaser_copy_1362348342.coreimg.100.850.jpeg/1735896083975/geforce-rtx-40-series-new.jpeg"},
+  {name:"PC Case RGB",price:4200,img:"https://gameone.ph/media/catalog/product/mpiowebpcache/d378a0f20f83637cdb1392af8dc032a2/i/n/inplay-thunder-robot-rgb-case-1.webp"},
+  {name:"AMD Ryzen 5 5600X CPU",price:15000,img:"https://easypc.com.ph/cdn/shop/products/AMD_Ryzen_5_5600X_Socket_AM4_3.4GHz_Processor-b_2048x.jpg?v=1705544127"},
+  {name:"Intel Core i5-12400F CPU",price:14500,img:"https://joebz.com/cdn/shop/products/Intel_Core_I5-12400F_1024x1024.png?v=1644292899"},
+  {name:"16GB DDR4 RAM Kit",price:3800,img:"https://www.integralmemory.com/wp-content/uploads/2022/05/DDR4-DIMM-Kit-of-2.png"},
+  {name:"500GB NVMe SSD",price:2600,img:"https://ecommerce.datablitz.com.ph/cdn/shop/files/wd-blue-sn5000-nvme-ssd-500gb-left.png.wdthumb.1280.1280_800x.jpg?v=1736062325"},
+
+  // CHAIRS
+  {name:"Gaming Chair",price:7200,img:"https://www.greensoul.online/cdn/shop/files/r1_650x.jpg?v=1756712404"},
+  {name:"Ergonomic Office Chair",price:6800,img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd0GtnP1Xb1Os3EB4IWmpuIkrUHM8p1DLSeQ&s"},
+  {name:"Racing Style Chair",price:9500,img:"https://media.diy.com/is/image/KingfisherDigital/vinsetto-racing-style-gaming-chair-with-reclining-function-footrest-grey~5056725535476_01c_MP?$MOB_PREV$&$width=600&$height=600"},
+  {name:"Mesh Back Office Chair",price:4500,img:"https://www.costuless.com.ph/wp-content/uploads/2024/11/BEST-BLK-min.jpg"},
+
+  // MOUSE PADS
+  {name:"UGREEN LP668 Mouse Pad",price:540,img:"https://electroslab.com/cdn/shop/files/UGREEN-Ergonomic-Mouse-Pad-with-Wrist-Rest.webp?v=1750676489"},
+  {name:"Esports Micro-Woven Mouse Pad",price:470,img:"https://www.pbtech.com/pacific/imgprod/P/A/PADSTP63004__1.jpg"},
+  {name:"Soft Gaming Mouse Mat XXL",price:2083,img:"https://www.netcombrunei.com/razer-gigantus-v2-soft-gaming-mouse-mat-xxl-frml-packaging-razer-430"},
+  {name:"Extended Nano-Coating Mouse Pad",price:2150,img:"https://m.media-amazon.com/images/I/81dQThiENVL._AC_UF894,1000_QL80_.jpg"},
+  {name:"RGB Gaming Mouse Pad",price:1299,img:"https://ecommerce.datablitz.com.ph/cdn/shop/files/rk-rgb-mouse-pad-2_1_800x.jpg?v=1686711458"},
+  {name:"Large Eco Rubber Mouse Pad",price:690,img:"https://m.media-amazon.com/images/I/51N7xlttzaL._AC_UF1000,1000_QL80_.jpg"}
+];
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
 // Helper to render star ratings for products
@@ -844,8 +882,8 @@ function renderProducts(list = products){
         <h3>${p.name}</h3>
         ${renderStars(rating)}
         <p class="price">₱${p.price}</p>
-        <button onclick="openModal(${i})">Add To Cart</button>
-        <button onclick="openModal(${i})">Checkout</button>
+       <button onclick="openModal(${i})">Add To Cart</button>
+       <button onclick="openModal(${i})">Checkout</button>
       </div>
     `;
   });
@@ -885,37 +923,65 @@ if(currentUser){
 
 let categorizedProducts = [
   {
-    category: "Accessories",
+
+    category: "Mouse",
     items: [
-      {name:"Headphones",price:800,img:"https://m.media-amazon.com/images/I/61CGHv6kmWL.jpg"},
-      {name:"Phone Case",price:600,img:"https://m.media-amazon.com/images/I/61tC0X5lYCL.jpg"},
-      {name:"Wireless Gaming Mouse",price:2500,img:"https://m.media-amazon.com/images/I/61LtuGzXeaL.jpg"}
+      {name:"Wireless Gaming Mouse",price:2500,img:"https://m.media-amazon.com/images/I/61LtuGzXeaL.jpg"},
+      {name:"Razer DeathAdder Essential Gaming Mouse",price:600,img:"https://assets2.razerzone.com/images/pnx.assets/17a01790de53c5a37cf2f3d07a9c1ed1/deathadder-essential-gallery-1.jpg"},
+      {name:"Redragon Predator M612 RGB",price:1400,img:"https://redragonshop.com/cdn/shop/products/8000DPIWiredOpticalGamerMouse_2.png?v=1762457673&width=713"},
+      {name:"Fantech VX7 Crypto Wired Mouse",price:500,img:"https://down-my.img.susercontent.com/file/my-11134207-7rask-m8om2ybct7ke13"},
+      {name:"Logitech G203 Prodigy Mouse",price:1200,img:"https://resource.logitechg.com/c_fill,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/gaming/en/products/g203/g203-gallery-1.png"},
+      {name:"SteelSeries Rival 3 Mouse",price:1600,img:"https://shop.tti.com.ph/pub/media/catalog/product/cache/07dc43095bd992476134f3022ceb9abf/m/o/mou-ss-62513-2_1.png"}
     ]
   },
   {
     category: "Keyboards",
     items: [
       {name:"Keyboard",price:1000,img:"https://m.media-amazon.com/images/I/71kr3WAj1FL.jpg"},
-      {name:"RGB Mechanical Keyboard",price:3200,img:"https://m.media-amazon.com/images/I/71gB2ZKx3sL.jpg"}
+      {name:"RGB Mechanical Keyboard",price:3200,img:"https://shop.tti.com.ph/pub/media/catalog/product/cache/07dc43095bd992476134f3022ceb9abf/h/i/high_resolution_png-g913tkl_blk_carbon_fob_jp.png"},
+      {name:"Razer BlackWidow V3 Keyboard",price:7800,img:"https://cdn.shopify.com/s/files/1/0460/2567/0805/products/RAZER-BLACKWIDOW-V3-TENKEYLESS-RAZER-GREEN-CLICKY-SWITCHES-COMPACT-MECHANICAL-KEYBOARD-RAZER-CHROMA-RGB-LIGHTING-KEYBOARD.jpg?v=1629717267"},
+      {name:"Logitech K120 Wired Keyboard",price:650,img:"https://shop.tti.com.ph/pub/media/catalog/product/cache/07dc43095bd992476134f3022ceb9abf/h/i/high_resolution_png-k120_top.png"},
+      {name:"Corsair K70 RGB Keyboard",price:9900,img:"https://assets.corsair.com/image/upload/c_pad,q_auto,h_1024,w_1024,f_auto/products/Gaming-Keyboards/CH-9000118-NA/Gallery/CGK70_RGB_NA_006.webp"}
     ]
   },
   {
     category: "Monitors",
     items: [
-      {name:"Gaming Monitor",price:9500,img:"https://m.media-amazon.com/images/I/71p0vJb6q4L.jpg"}
+      {name:"Gaming Monitor",price:9500,img:"https://m.media-amazon.com/images/I/71p0vJb6q4L.jpg"},
+      {name:"27\" FHD Gaming Monitor",price:13500,img:"https://images.philips.com/is/image/philipsconsumer/15ed562da5bf464eabb6b177009f1890?$pnglarge$&wid=1250"},
+      {name:"34\" Ultrawide Curved Monitor",price:24800,img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdRpwFMXfcQIvlCq9XvWn09uQLOIVRvUyq4Q&s"},
+      {name:"24\" IPS Monitor",price:8200,img:"https://www.lg.com/content/dam/channel/wcms/ph/images/monitors/24mk430h-b_aph_eacm_ph_c/gallery/DZ-01.jpg"}
     ]
   },
   {
     category: "PC Components",
     items: [
-      {name:"RTX Graphics Card",price:45000,img:"https://m.media-amazon.com/images/I/81wC3H6H0zL.jpg"},
-      {name:"PC Case RGB",price:4200,img:"https://m.media-amazon.com/images/I/71c5H8N3yJL.jpg"}
+      {name:"RTX Graphics Card",price:45000,img:"https://www.nvidia.com/content/nvidiaGDC/ph/en_PH/geforce/graphics-cards/_jcr_content/root/responsivegrid/nv_container_1965276325/nv_teaser_copy_1362348342.coreimg.100.850.jpeg/1735896083975/geforce-rtx-40-series-new.jpeg"},
+      {name:"PC Case RGB",price:4200,img:"https://gameone.ph/media/catalog/product/mpiowebpcache/d378a0f20f83637cdb1392af8dc032a2/i/n/inplay-thunder-robot-rgb-case-1.webp"},
+      {name:"AMD Ryzen 5 5600X CPU",price:15000,img:"https://easypc.com.ph/cdn/shop/products/AMD_Ryzen_5_5600X_Socket_AM4_3.4GHz_Processor-b_2048x.jpg?v=1705544127"},
+      {name:"Intel Core i5-12400F CPU",price:14500,img:"https://joebz.com/cdn/shop/products/Intel_Core_I5-12400F_1024x1024.png?v=1644292899"},
+      {name:"16GB DDR4 RAM Kit",price:3800,img:"https://www.integralmemory.com/wp-content/uploads/2022/05/DDR4-DIMM-Kit-of-2.png"},
+      {name:"500GB NVMe SSD",price:2600,img:"https://ecommerce.datablitz.com.ph/cdn/shop/files/wd-blue-sn5000-nvme-ssd-500gb-left.png.wdthumb.1280.1280_800x.jpg?v=1736062325"}
     ]
   },
   {
     category: "Chairs",
     items: [
-      {name:"Gaming Chair",price:7200,img:"https://m.media-amazon.com/images/I/71S6k1Dk7QL.jpg"}
+      {name:"Raptor Gaming Chair",price:7200,img:"https://www.greensoul.online/cdn/shop/files/r1_650x.jpg?v=1756712404"},
+      {name:"Ergonomic Office Chair",price:6800,img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd0GtnP1Xb1Os3EB4IWmpuIkrUHM8p1DLSeQ&s"},
+      {name:"Racing Style Chair",price:9500,img:"https://media.diy.com/is/image/KingfisherDigital/vinsetto-racing-style-gaming-chair-with-reclining-function-footrest-grey~5056725535476_01c_MP?$MOB_PREV$&$width=600&$height=600"},
+      {name:"Mesh Back Office Chair",price:4500,img:"https://www.costuless.com.ph/wp-content/uploads/2024/11/BEST-BLK-min.jpg"}
+    ]
+  },
+  {
+    category: "Mouse Pads",
+    items: [
+      {name:"UGREEN LP668 Mouse Pad",price:540,img:"https://electroslab.com/cdn/shop/files/UGREEN-Ergonomic-Mouse-Pad-with-Wrist-Rest.webp?v=1750676489"},
+      {name:"Esports Micro-Woven Mouse Pad",price:470,img:"https://www.pbtech.com/pacific/imgprod/P/A/PADSTP63004__1.jpg"},
+      {name:"Soft Gaming Mouse Mat XXL",price:2083,img:"https://www.netcombrunei.com/razer-gigantus-v2-soft-gaming-mouse-mat-xxl-frml-packaging-razer-430"},
+      {name:"Extended Nano-Coating Mouse Pad",price:2150,img:"https://m.media-amazon.com/images/I/81dQThiENVL._AC_UF894,1000_QL80_.jpg"},
+      {name:"RGB Gaming Mouse Pad",price:1299,img:"https://ecommerce.datablitz.com.ph/cdn/shop/files/rk-rgb-mouse-pad-2_1_800x.jpg?v=1686711458"},
+      {name:"Large Eco Rubber Mouse Pad",price:690,img:"https://m.media-amazon.com/images/I/51N7xlttzaL._AC_UF1000,1000_QL80_.jpg"}
     ]
   }
 ];
@@ -934,12 +1000,12 @@ function renderCategorizedProducts() {
             let rating = Math.floor(Math.random() * 5) + 1;
             return `
               <div class="product-card">
-                <img src="${p.img}">
+                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
                 <h3>${p.name}</h3>
                 ${renderStars(rating)}
                 <p class="price">₱${p.price}</p>
                 <button onclick="openModalByProduct('${cat.category}', ${i})">Add To Cart</button>
-                <button onclick="openModalByProduct('${cat.category}', ${i})">Checkout</button>
+                <button onclick="openModal(${JSON.stringify(p)})">Checkout</button>
               </div>
             `;
           }).join("")}
