@@ -1154,6 +1154,10 @@ body{
 </footer>
 
 <script>
+document.getElementById("searchInput").addEventListener("blur", function () {
+  this.value = "";
+  applyFilters(); // refresh back to normal products
+});
 
   function openCart(){
   document.getElementById("cartModal").style.display = "flex";
