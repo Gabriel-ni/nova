@@ -1174,6 +1174,10 @@ body{
 </footer>
 
 <script>
+document.getElementById("searchInput").addEventListener("blur", function () {
+  this.value = "";
+  applyFilters(); // refresh back to normal products
+});
 
   function openCart() {
   let currentUser = localStorage.getItem("currentUser");
